@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjcloud.match.base.dao.impl.MatchReportDaoImpl">
+
+    <select id="listPage" parameterType="map" resultType="matchInfoReport">
+        <include refid="listSQL"/>
+        <if test="pageFirst != null">
+            LIMIT #{pageFirst}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="listPageCount" parameterType="map" resultType="long">
+        SELECT COUNT(1) FROM (<include refid="listSQL"/>)A
+    </select>
+
+    <sql id="listSQL">
+        SELECT
+        match_info.id,
+        match_info.matchName,
+        match_info.startTime AS 'startTime'
+        FROM sign_record
+        JOIN match_subject ON match_subject.id = sign_record.subjectId
+        JOIN match_info ON match_subject.matchId = match_info.id
+        WHERE sign_record.payment IN (1, 5, 6) ## 已支付
+        AND match_subject.type = 0 ## 个人赛
+        <include refid="condition_sql"/>
+        <if test="paidTimeBegin != null">
+            AND sign_record.paymentTime &gt;= #{paidTimeBegin}
+        </if>
+        <if test="paidTimeEnd != null">
+            AND sign_record.paymentTime &lt; #{paidTimeEnd}
+        </if>
+        GROUP BY match_info.id
+        UNION ALL
+        SELECT
+        match_info.id,
+        match_info.matchName,
+        match_info.startTime AS 'startTime'
+        FROM subject_team
+        JOIN match_subject ON match_subject.id = subject_team.subjectId
+        JOIN match_info ON match_subject.matchId = match_info.id
+        WHERE subject_team.payment IN (1, 5, 6) ## 已支付
+        AND match_subject.type = 1 ## 团队赛
+        <include refid="condition_sql"/>
+        <if test="paidTimeBegin != null">
+            AND subject_team.paymentTime &gt;= #{paidTimeBegin}
+        </if>
+        <if test="paidTimeEnd != null">
+            AND subject_team.paymentTime &lt; #{paidTimeEnd}
+        </if>
+        GROUP BY match_info.id
+
+        ORDER BY startTime DESC
+    </sql>
+
+    <sql id="listSubjectSQL">
+        SELECT
+        match_subject.id AS 'matchSubjectId',
+        match_subject.matchName AS 'matchName',
+        match_subject.subject AS 'matchSubjectName',
+        match_subject.expenses AS 'matchSubjectAmount',
+        match_subject.gameTime AS 'gameTime',
+        match_subject.type AS 'type',
+        count(*) AS 'signCount',
+        IFNULL(sum(sign_record.expenses), 0) AS 'totalAmount',
+        ## 支付宝
+        count(paymentType = 4 OR NULL) AS 'aliPayCount',
+        IFNULL(sum(if(paymentType = 4, sign_record.expenses, 0)), 0) AS 'aliPayAmount',
+        CONCAT(round(ifnull(sum(if(paymentType = 4, sign_record.expenses, 0)) * 100
+        / sum(sign_record.expenses), 0), 2), '%') AS 'aliPayAmountPercent',
+        ## 微信
+        count(paymentType = 5 OR NULL) AS 'wxPayCount',
+        IFNULL(sum(if(paymentType = 5, sign_record.expenses, 0)), 0) AS 'wxPayAmount',
+        CONCAT(round(ifnull(sum(if(paymentType = 5, sign_record.expenses, 0)) * 100
+        / sum(sign_record.expenses), 0), 2), '%') AS 'wxPayAmountPercent',
+        ## 其它
+        count(paymentType NOT IN (4, 5) OR NULL) AS 'otherPayCount',
+        IFNULL(sum(if(paymentType NOT IN (4, 5), sign_record.expenses, 0)), 0) AS 'otherPayAmount',
+        CONCAT(round(ifnull(sum(if(paymentType NOT IN (4, 5), sign_record.expenses, 0)) * 100
+        / sum(sign_record.expenses), 100), 2), '%') AS 'otherPayAmountPercent'
+        FROM sign_record
+        JOIN match_subject ON match_subject.id = sign_record.subjectId
+        WHERE sign_record.payment IN (1, 5, 6) ## 已支付
+        AND match_subject.type = 0 ## 个人赛
+        <include refid="condition_sql"/>
+        <if test="paidTimeBegin != null">
+            AND sign_record.paymentTime &gt;= #{paidTimeBegin}
+        </if>
+        <if test="paidTimeEnd != null">
+            AND sign_record.paymentTime &lt; #{paidTimeEnd}
+        </if>
+        GROUP BY sign_record.subjectId
+        UNION ALL
+        SELECT
+        match_subject.id AS 'matchSubjectId',
+        match_subject.matchName AS 'matchName',
+        match_subject.subject AS 'matchSubjectName',
+        match_subject.expenses AS 'matchSubjectAmount',
+        match_subject.gameTime AS 'gameTime',
+        match_subject.type AS 'type',
+        count(*) AS 'signCount',
+        IFNULL(sum(subject_team.expenses), 0) AS 'totalAmount',
+        ## 支付宝
+        count(paymentType = 4 OR NULL) AS 'aliPayCount',
+        IFNULL(sum(if(paymentType = 4, subject_team.expenses, 0)), 0) AS 'aliPayAmount',
+        CONCAT(round(ifnull(sum(if(paymentType = 4, subject_team.expenses, 0)) * 100
+        / sum(subject_team.expenses), 0), 2), '%') AS 'aliPayAmountPercent',
+        ## 微信
+        count(paymentType = 5 OR NULL) AS 'wxPayCount',
+        IFNULL(sum(if(paymentType = 5, subject_team.expenses, 0)), 0) AS 'wxPayAmount',
+        CONCAT(round(ifnull(sum(if(paymentType = 5, subject_team.expenses, 0)) * 100
+        / sum(subject_team.expenses), 0), 2), '%') AS 'wxPayAmountPercent',
+        ## 其它
+        count(paymentType NOT IN (4, 5) OR NULL) AS 'otherPayCount',
+        IFNULL(sum(if(paymentType NOT IN (4, 5), subject_team.expenses, 0)), 0) AS 'otherPayAmount',
+        CONCAT(round(ifnull(sum(if(paymentType NOT IN (4, 5), subject_team.expenses, 0)) * 100
+        / sum(subject_team.expenses), 100), 2), '%') AS 'otherPayAmountPercent'
+        FROM subject_team
+        JOIN match_subject ON match_subject.id = subject_team.subjectId
+        WHERE subject_team.payment IN (1, 5, 6) ## 已支付
+        AND match_subject.type = 1 ## 团队赛
+        <include refid="condition_sql"/>
+        <if test="paidTimeBegin != null">
+            AND subject_team.paymentTime &gt;= #{paidTimeBegin}
+        </if>
+        <if test="paidTimeEnd != null">
+            AND subject_team.paymentTime &lt; #{paidTimeEnd}
+        </if>
+        GROUP BY subject_team.subjectId
+
+        ORDER BY gameTime DESC
+    </sql>
+
+    <!--培训报表（课程数据）-->
+    <select id="subjectReport" parameterType="map" resultType="map">
+        <include refid="listSubjectSQL"/>
+    </select>
+
+    <!--培训报表（总数据）-->
+    <select id="allSubjectReport" parameterType="map" resultType="map">
+        SELECT
+        SUM(A.signCount) AS 'signCount',
+        SUM(A.totalAmount) AS 'totalAmount',
+        SUM(A.aliPayCount) AS 'aliPayCount',
+        SUM(A.aliPayAmount) AS 'aliPayAmount',
+        CONCAT(round(ifnull(sum(A.aliPayAmount) * 100
+        / SUM(A.totalAmount), 0), 2), '%') AS 'aliPayAmountPercent',
+        SUM(A.wxPayCount) AS 'wxPayCount',
+        SUM(A.wxPayAmount) AS 'wxPayAmount',
+        CONCAT(round(ifnull(sum(A.wxPayAmount) * 100
+        / SUM(A.totalAmount), 0), 2), '%') AS 'wxPayAmountPercent',
+        SUM(A.otherPayCount) AS 'otherPayCount',
+        SUM(A.otherPayAmount) AS 'otherPayAmount',
+        CONCAT(round(ifnull(sum(A.otherPayAmount) * 100
+        / SUM(A.totalAmount), 100), 2), '%') AS 'otherPayAmountPercent'
+        FROM(
+        SELECT
+        count(*) AS 'signCount',
+        IFNULL(sum(sign_record.expenses), 0) AS 'totalAmount',
+        ## 支付宝
+        count(paymentType = 4 OR NULL) AS 'aliPayCount',
+        IFNULL(sum(if(paymentType = 4, sign_record.expenses, 0)), 0) AS 'aliPayAmount',
+        ## 微信
+        count(paymentType = 5 OR NULL) AS 'wxPayCount',
+        IFNULL(sum(if(paymentType = 5, sign_record.expenses, 0)), 0) AS 'wxPayAmount',
+        ## 其它
+        count(paymentType NOT IN (4, 5) OR NULL) AS 'otherPayCount',
+        IFNULL(sum(if(paymentType NOT IN (4, 5), sign_record.expenses, 0)), 0) AS 'otherPayAmount'
+        FROM sign_record
+        JOIN match_subject ON match_subject.id = sign_record.subjectId
+        WHERE sign_record.payment IN (1, 5, 6) ## 已支付
+        AND match_subject.type = 0 ## 个人赛
+        <include refid="condition_sql"/>
+        <if test="paidTimeBegin != null">
+            AND sign_record.paymentTime &gt;= #{paidTimeBegin}
+        </if>
+        <if test="paidTimeEnd != null">
+            AND sign_record.paymentTime &lt; #{paidTimeEnd}
+        </if>
+
+        UNION
+        SELECT
+        count(*) AS 'signCount',
+        IFNULL(sum(subject_team.expenses), 0) AS 'totalAmount',
+        ## 支付宝
+        count(paymentType = 4 OR NULL) AS 'aliPayCount',
+        IFNULL(sum(if(paymentType = 4, subject_team.expenses, 0)), 0) AS 'aliPayAmount',
+        ## 微信
+        count(paymentType = 5 OR NULL) AS 'wxPayCount',
+        IFNULL(sum(if(paymentType = 5, subject_team.expenses, 0)), 0) AS 'wxPayAmount',
+        ## 其它
+        count(paymentType NOT IN (4, 5) OR NULL) AS 'otherPayCount',
+        IFNULL(sum(if(paymentType NOT IN (4, 5), subject_team.expenses, 0)), 0) AS 'otherPayAmount'
+        FROM subject_team
+        JOIN match_subject ON match_subject.id = subject_team.subjectId
+        WHERE subject_team.payment IN (1, 5, 6) ## 已支付
+        AND match_subject.type = 1 ## 团队赛
+        <include refid="condition_sql"/>
+        <if test="paidTimeBegin != null">
+            AND subject_team.paymentTime &gt;= #{paidTimeBegin}
+        </if>
+        <if test="paidTimeEnd != null">
+            AND subject_team.paymentTime &lt; #{paidTimeEnd}
+        </if>
+        )A
+    </select>
+
+    <sql id="condition_sql">
+        <if test="tenantId != null">
+            AND match_subject.tenantId = #{tenantId}
+        </if>
+        <if test="matchId != null">
+            AND match_subject.matchId = #{matchId}
+        </if>
+        <if test="subjectId != null">
+            AND match_subject.id = #{subjectId}
+        </if>
+        <if test="paymentType != null">
+            AND paymentType = #{paymentType}
+        </if>
+    </sql>
+</mapper>

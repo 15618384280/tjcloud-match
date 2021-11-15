@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjcloud.match.base.dao.impl.SportPlaceSignRecordDaoImpl">
+	<sql id="t_sportPlaceSignRecord">sport_place_sign_record</sql>
+
+	<insert id="insert" parameterType="sportPlaceSignRecord">
+		<selectKey resultType="string" order="BEFORE" keyProperty="id">
+			SELECT REPLACE(UUID(), '-', '')
+		</selectKey>
+		INSERT INTO <include refid="t_sportPlaceSignRecord" /> (ID,
+		<trim suffixOverrides=",">
+			<if test="signRecordId != null and signRecordId != ''">
+				signRecordId,</if>
+			<if test="placeId != null and placeId != ''">
+				placeId,</if>
+			<if test="placeName != null and placeName != ''">
+				placeName,</if>
+			<if test="signerId != null and signerId != ''">
+				signerId,</if>
+			<if test="signerName != null and signerName != ''">
+				signerName,</if>
+			<if test="signerMobile != null and signerMobile != ''">
+				signerMobile,</if>
+			<if test="signinTime != null and signinTime != ''">
+				signinTime,</if>
+			<include refid="com.tjcloud.data.mapper.inscolumn" />
+		</trim>
+		) VALUES (#{id},
+		<trim suffixOverrides=",">
+			<if test="signRecordId != null and signRecordId != ''">
+				#{signRecordId},</if>
+			<if test="placeId != null and placeId != ''">
+				#{placeId},</if>
+			<if test="placeName != null and placeName != ''">
+				#{placeName},</if>
+			<if test="signerId != null and signerId != ''">
+				#{signerId},</if>
+			<if test="signerName != null and signerName != ''">
+				#{signerName},</if>
+			<if test="signerMobile != null and signerMobile != ''">
+				#{signerMobile},</if>
+			<if test="signinTime != null and signinTime != ''">
+				#{signinTime},</if>
+			<include refid="com.tjcloud.data.mapper.insparam" />
+		</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="sportPlaceSignRecord">
+		UPDATE <include refid="t_sportPlaceSignRecord" />
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="signRecordId != null and signRecordId != ''">
+				signRecordId = #{signrecordid},</if>
+			<if test="placeId != null and placeId != ''">
+				placeId = #{placeid},</if>
+			<if test="placeName != null and placeName != ''">
+				placeName = #{placename},</if>
+			<if test="signerId != null and signerId != ''">
+				signerId = #{signerid},</if>
+			<if test="signerName != null and signerName != ''">
+				signerName = #{signername},</if>
+			<if test="signerMobile != null and signerMobile != ''">
+				signerMobile = #{signermobile},</if>
+			<if test="signinTime != null and signinTime != ''">
+				signinTime = #{signintime},</if>
+			<include refid="com.tjcloud.data.mapper.update" />
+		</trim>
+		WHERE id = #{id}
+	</update>
+
+	<update id="lock" parameterType="string">
+		UPDATE <include refid="t_sportPlaceSignRecord" />
+		SET LOCKED = 1
+		WHERE LOCKED = 0
+		AND id = #{id}
+	</update>
+
+	<update id="unlock" parameterType="string">
+		UPDATE <include refid="t_sportPlaceSignRecord" />
+		SET LOCKED = 0
+		WHERE LOCKED = 1
+		AND id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM <include refid="t_sportPlaceSignRecord" />
+		WHERE id = #{id}
+	</delete>
+
+	<select id="getById" parameterType="string" resultType="sportPlaceSignRecord">
+		SELECT * FROM <include refid="t_sportPlaceSignRecord" />
+		WHERE id = #{id}
+	</select>
+
+	<select id="listBy" parameterType="map" resultType="sportPlaceSignRecord">
+		<include refid="listSQL" />
+	</select>
+
+	<select id="listPage" parameterType="map" resultType="sportPlaceSignRecord">
+		<include refid="listSQL" />
+		<if test="pageFirst != null">
+			LIMIT #{pageFirst}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="listPageCount" parameterType="map" resultType="long">
+		SELECT COUNT(1) FROM <include refid="t_sportPlaceSignRecord" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+	</select>
+
+	<sql id="listSQL">
+		SELECT * FROM <include refid="t_sportPlaceSignRecord" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		ORDER BY id DESC
+	</sql>
+
+	<sql id="condition_sql">
+		<trim prefixOverrides="AND | OR">
+			<if test="id != null and id != ''">
+				and id = #{id}</if>
+			<if test="signRecordId != null and signRecordId != ''">
+				and signRecordId = #{signRecordId}</if>
+			<if test="placeId != null and placeId != ''">
+				and placeId = #{placeId}</if>
+			<if test="placeName != null and placeName != ''">
+				and placeName = #{placeName}</if>
+			<if test="signerId != null and signerId != ''">
+				and signerId = #{signerId}</if>
+			<if test="signerName != null and signerName != ''">
+				and signerName = #{signerName}</if>
+			<if test="signerMobile != null and signerMobile != ''">
+				and signerMobile = #{signerMobile}</if>
+			<if test="signinTime != null and signinTime != ''">
+				and signinTime = #{signinTime}</if>
+			<if test="disabled != null">
+				and disabled = #{disabled}</if>
+			<if test="locked != null">
+				and locked = #{locked}</if>
+			<if test="version != null">
+				and version = #{version}</if>
+			<if test="lastAccess != null">
+				and lastAccess = #{lastAccess}</if>
+			<if test="creatorId != null and creatorId != ''">
+				and creatorId = #{creatorId}</if>
+			<if test="createdBy != null and createdBy != ''">
+				and createdBy = #{createdBy}</if>
+			<if test="startTime != null">
+				and createdTime <![CDATA[ >= ]]> #{startTime}</if>
+			<if test="endTime != null">
+				and createdTime <![CDATA[ <= ]]> #{endTime}</if>
+			<if test="createdTime != null">
+				and createdTime = #{createdTime}</if>
+			<if test="updaterId != null and updaterId != ''">
+				and updaterId = #{updaterId}</if>
+			<if test="updatedBy != null and updatedBy != ''">
+				and updatedBy = #{updatedBy}</if>
+			<if test="disabled == null">
+				AND disabled = 0
+			</if>
+			<include refid="com.tjcloud.data.mapper.condition"/>
+		</trim>
+	</sql>
+
+	<select id="findALLCountGroupByEveryDay" parameterType="map" resultType="long">
+		    SELECT
+				COUNT(1) signinNum
+			FROM
+				(
+					SELECT
+						from_unixtime(createdTime / 1000, '%Y-%m-%d') AS time,
+						COUNT(id) sum
+					FROM
+						sport_place_sign_record
+					<where>
+						<include refid="condition_sql" />
+					</where>
+					GROUP BY
+						time
+				) A
+	</select>
+
+	<select id="findEndOne" parameterType="map" resultType="sportPlaceSignRecord">
+		SELECT
+        *
+		FROM
+		sport_place_sign_record
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		ORDER BY createdTime DESC LIMIT 1
+	</select>
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjcloud.match.base.dao.impl.MatchInvitationDaoImpl">
+	<sql id="t_matchInvitation">match_invitation</sql>
+
+	<insert id="insert" parameterType="matchInvitation">
+		<selectKey resultType="string" order="BEFORE" keyProperty="id">
+			SELECT REPLACE(UUID(), '-', '')
+		</selectKey>
+		INSERT INTO <include refid="t_matchInvitation" /> (ID,
+		<trim suffixOverrides=",">
+			<if test="matchId != null">
+				matchId,
+			</if>
+			<if test="subjectId != null">
+				subjectId,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="invitationCode != null">
+				invitationCode,
+			</if>
+			<if test="count != null">
+				count,
+			</if>
+			<if test="sortNo != null">
+				sortNo,
+			</if>
+			<include refid="com.tjcloud.data.mapper.inscolumn"/>
+		</trim>
+		) VALUES (#{id},
+		<trim suffixOverrides=",">
+			<if test="matchId != null">
+				#{matchId},
+			</if>
+			<if test="subjectId != null">
+				#{subjectId},
+			</if>
+			<if test="userId != null">
+				#{userId},
+			</if>
+			<if test="invitationCode != null">
+				#{invitationCode},
+			</if>
+			<if test="count != null">
+				#{count},
+			</if>
+			<if test="sortNo != null">
+				#{sortNo},
+			</if>
+			<include refid="com.tjcloud.data.mapper.insparam"/>
+		</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="matchInvitation">
+		UPDATE <include refid="t_matchInvitation" />
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="matchId != null">
+				matchId = #{matchId},
+			</if>
+			<if test="subjectId != null">
+				subjectId = #{subjectId},
+			</if>
+			<if test="userId != null">
+				userId = #{userId},
+			</if>
+			<if test="invitationCode != null">
+				invitationCode = #{invitationCode},
+			</if>
+			<if test="count != null">
+				count = #{count},
+			</if>
+			<if test="sortNo != null">
+				sortNo = #{sortNo},
+			</if>
+			<include refid="com.tjcloud.data.mapper.update"/>
+		</trim>
+		 WHERE id = #{id}
+	</update>
+
+	<update id="lock" parameterType="string">
+		UPDATE <include refid="t_matchInvitation" />
+		   SET LOCKED = 1
+		 WHERE LOCKED = 0
+		   AND id = #{id}
+	</update>
+
+	<update id="unlock" parameterType="string">
+		UPDATE <include refid="t_matchInvitation" />
+		   SET LOCKED = 0
+		 WHERE LOCKED = 1
+		   AND id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM <include refid="t_matchInvitation" />
+		 WHERE id = #{id}
+	</delete>
+
+	<select id="getById" parameterType="string" resultType="matchInvitation">
+		SELECT * FROM <include refid="t_matchInvitation" />
+		 WHERE id = #{id}
+	</select>
+
+	<select id="listBy" parameterType="map" resultType="matchInvitation">
+		<include refid="listSQL" />
+	</select>
+
+	<select id="listPage" parameterType="map" resultType="matchInvitation">
+		<include refid="listSQL" />
+		<if test="pageFirst != null">
+			LIMIT #{pageFirst}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="listPageCount" parameterType="map" resultType="long">
+		SELECT COUNT(1) FROM <include refid="t_matchInvitation" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+	</select>
+
+	<sql id="listSQL">
+		SELECT * FROM <include refid="t_matchInvitation" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		ORDER BY id DESC
+	</sql>
+   
+	<sql id="condition_sql">
+		<trim prefixOverrides="AND | OR">
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="matchId != null">
+				AND matchId = #{matchId}
+			</if>
+			<if test="subjectId != null">
+				AND subjectId = #{subjectId}
+			</if>
+			<if test="userId != null">
+				AND userId = #{userId}
+			</if>
+			<if test="invitationCode != null">
+				AND invitationCode = #{invitationCode}
+			</if>
+			<if test="count != null">
+				AND count = #{count}
+			</if>
+			<if test="sortNo != null">
+				AND sortNo = #{sortNo}
+			</if>
+			<include refid="com.tjcloud.data.mapper.condition"/>
+		</trim>
+	</sql>
+</mapper>

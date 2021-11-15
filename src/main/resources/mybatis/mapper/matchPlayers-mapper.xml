@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjcloud.match.base.dao.impl.MatchPlayersDaoImpl">
+	<sql id="t_matchPlayers">match_players</sql>
+
+	<insert id="insert" parameterType="matchPlayers">
+		<selectKey resultType="string" order="BEFORE" keyProperty="id">
+			SELECT REPLACE(UUID(), '-', '')
+		</selectKey>
+		INSERT INTO <include refid="t_matchPlayers" /> (ID,
+		<trim suffixOverrides=",">
+			<if test="tenantId != null">
+				tenantId,
+			</if>
+			<if test="matchId != null">
+				matchId,
+			</if>
+			<if test="subjectId != null">
+				subjectId,
+			</if>
+			<if test="subjectName != null">
+				subjectName,
+			</if>
+			<if test="userId != null">
+				userId,
+			</if>
+			<if test="joinUserId != null">
+				joinUserId,
+			</if>
+			<if test="joinTeamId != null">
+				joinTeamId,
+			</if>
+			<if test="joinTeamName != null">
+				joinTeamName,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="certificateNo != null">
+				certificateNo,
+			</if>
+			<if test="achievement != null">
+				achievement,
+			</if>
+			<if test="del != null">
+				del,
+			</if>
+			<include refid="com.tjcloud.data.mapper.inscolumn"/>
+		</trim>
+		) VALUES (#{id},
+		<trim suffixOverrides=",">
+			<if test="tenantId != null">
+				#{tenantId},
+			</if>
+			<if test="matchId != null">
+				#{matchId},
+			</if>
+			<if test="subjectId != null">
+				#{subjectId},
+			</if>
+			<if test="subjectName != null">
+				#{subjectName},
+			</if>
+			<if test="userId != null">
+				#{userId},
+			</if>
+			<if test="joinUserId != null">
+				#{joinUserId},
+			</if>
+			<if test="joinTeamId != null">
+				#{joinTeamId},
+			</if>
+			<if test="joinTeamName != null">
+				#{joinTeamName},
+			</if>
+			<if test="type != null">
+				#{type},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="sex != null">
+				#{sex},
+			</if>
+			<if test="phone != null">
+				#{phone},
+			</if>
+			<if test="certificateNo != null">
+				#{certificateNo},
+			</if>
+			<if test="achievement != null">
+				#{achievement},
+			</if>
+			<if test="del != null">
+				#{del},
+			</if>
+			<include refid="com.tjcloud.data.mapper.insparam"/>
+		</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="matchPlayers">
+		UPDATE <include refid="t_matchPlayers" />
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="tenantId != null">
+				tenantId = #{tenantId},
+			</if>
+			<if test="matchId != null">
+				matchId = #{matchId},
+			</if>
+			<if test="subjectId != null">
+				subjectId = #{subjectId},
+			</if>
+			<if test="subjectName != null">
+				subjectName = #{subjectName},
+			</if>
+			<if test="userId != null">
+				userId = #{userId},
+			</if>
+			<if test="joinUserId != null">
+				joinUserId = #{joinUserId},
+			</if>
+			<if test="joinTeamId != null">
+				joinTeamId = #{joinTeamId},
+			</if>
+			<if test="joinTeamName != null">
+				joinTeamName = #{joinTeamName},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sex != null">
+				sex = #{sex},
+			</if>
+			<if test="phone != null">
+				phone = #{phone},
+			</if>
+			<if test="certificateNo != null">
+				certificateNo = #{certificateNo},
+			</if>
+			<if test="achievement != null">
+				achievement = #{achievement},
+			</if>
+			<if test="del != null">
+				del = #{del},
+			</if>
+			<include refid="com.tjcloud.data.mapper.update"/>
+		</trim>
+		 WHERE id = #{id}
+	</update>
+
+	<update id="lock" parameterType="string">
+		UPDATE <include refid="t_matchPlayers" />
+		   SET LOCKED = 1
+		 WHERE LOCKED = 0
+		   AND id = #{id}
+	</update>
+
+	<update id="unlock" parameterType="string">
+		UPDATE <include refid="t_matchPlayers" />
+		   SET LOCKED = 0
+		 WHERE LOCKED = 1
+		   AND id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM <include refid="t_matchPlayers" />
+		 WHERE id = #{id}
+	</delete>
+
+	<select id="getById" parameterType="string" resultType="matchPlayers">
+		SELECT * FROM <include refid="t_matchPlayers" />
+		 WHERE id = #{id}
+	</select>
+
+	<select id="listBy" parameterType="map" resultType="matchPlayers">
+		<include refid="listSQL" />
+	</select>
+
+	<select id="listPage" parameterType="map" resultType="matchPlayers">
+		<include refid="com.tjcloud.data.mapper.page#begin"/>
+		<include refid="listSQL" />
+		<include refid="com.tjcloud.data.mapper.page#end"/>
+	</select>
+
+	<select id="listPageCount" parameterType="map" resultType="long">
+		SELECT COUNT(1) FROM <include refid="t_matchPlayers" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+	</select>
+
+	<sql id="listSQL">
+		SELECT * FROM <include refid="t_matchPlayers" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		ORDER BY id DESC
+	</sql>
+   
+	<sql id="condition_sql">
+		<trim prefixOverrides="AND | OR">
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="tenantId != null">
+				AND tenantId = #{tenantId}
+			</if>
+			<if test="matchId != null">
+				AND matchId = #{matchId}
+			</if>
+			<if test="subjectId != null">
+				AND subjectId = #{subjectId}
+			</if>
+			<if test="subjectName != null">
+				AND subjectName = #{subjectName}
+			</if>
+			<if test="userId != null">
+				AND userId = #{userId}
+			</if>
+			<if test="joinUserId != null">
+				AND joinUserId = #{joinUserId}
+			</if>
+			<if test="joinTeamId != null">
+				AND joinTeamId = #{joinTeamId}
+			</if>
+			<if test="joinTeamName != null">
+				AND joinTeamName = #{joinTeamName}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="sex != null">
+				AND sex = #{sex}
+			</if>
+			<if test="phone != null">
+				AND phone = #{phone}
+			</if>
+			<if test="certificateNo != null">
+				AND certificateNo = #{certificateNo}
+			</if>
+			<if test="achievement != null">
+				AND achievement = #{achievement}
+			</if>
+			<if test="del != null">
+				AND del = #{del}
+			</if>
+			<include refid="com.tjcloud.data.mapper.condition"/>
+		</trim>
+	</sql>
+</mapper>

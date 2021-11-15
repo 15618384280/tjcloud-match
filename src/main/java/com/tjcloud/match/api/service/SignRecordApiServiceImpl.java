@@ -24,7 +24,7 @@ import com.tjcloud.match.base.service.*;
 import com.tjcloud.match.base.vo.MatchInfoVO;
 import com.tjcloud.match.base.vo.SignRecordVO;
 import com.tjcloud.match.base.vo.TeamSignRecordVO;
-import com.tjcloud.mmq.producer.MMQProducer;
+// import com.tjcloud.mmq.producer.MMQProducer;
 import com.tjcloud.order.api.enums.OrderType;
 import com.tjcloud.order.api.enums.PaymentType;
 import com.tjcloud.order.api.message.OrderMessageLocale;
@@ -94,8 +94,8 @@ public class SignRecordApiServiceImpl implements SignRecordApiService {
     @Autowired
     private OrderApiService orderApiService;
     
-    @Autowired
-    private MMQProducer mmqProducer;
+    // @Autowired
+    // private MMQProducer mmqProducer;
     @Autowired
 	private IdentityCardService identityCardService;
     
@@ -701,7 +701,7 @@ public class SignRecordApiServiceImpl implements SignRecordApiService {
 	        	sms.put("matchName", matchInfo.getMatchName());
 	        	sms.put("time", DateUtils.toFullString(matchInfo.getStartTime()) +"-" + DateUtils.toFullString(matchInfo.getEndTime()));
 	        	sms.put("address", matchInfo.getCity()+matchInfo.getArea()+matchInfo.getAddress());
-	        	mmqProducer.sendMessage(Constants.QUEUE.SMS_SENDING.toString(), sms.toJSONString());
+	        	// mmqProducer.sendMessage(Constants.QUEUE.SMS_SENDING.toString(), sms.toJSONString());
         }
         return subjectTeamService.get(subjectTeam.getId());
     }
@@ -733,7 +733,7 @@ public class SignRecordApiServiceImpl implements SignRecordApiService {
 				sms.put("matchName", matchInfo.getMatchName());
 				sms.put("time", DateUtils.toFullString(matchInfo.getStartTime()) + "-" + DateUtils.toFullString(matchInfo.getEndTime()));
 				sms.put("address", matchInfo.getCity() + matchInfo.getArea() + matchInfo.getAddress());
-				mmqProducer.sendMessage(Constants.QUEUE.SMS_SENDING.toString(), sms.toJSONString());
+				// mmqProducer.sendMessage(Constants.QUEUE.SMS_SENDING.toString(), sms.toJSONString());
 			}
 		}
         //发送积分MQ
@@ -741,7 +741,7 @@ public class SignRecordApiServiceImpl implements SignRecordApiService {
         	JSONObject message = new JSONObject();
         	message.put("userId", userId);
         	message.put("objectId", signRecord.getId());
-        	mmqProducer.sendMessage("integral_match_order", message.toJSONString());
+        	// mmqProducer.sendMessage("integral_match_order", message.toJSONString());
         }catch(Exception e) {
         	e.printStackTrace();
         }

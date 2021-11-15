@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjcloud.match.base.dao.impl.IdentityCardDaoImpl">
+	<sql id="t_identityCard">identity_card</sql>
+
+	<insert id="insert" parameterType="identityCard">
+		<selectKey resultType="string" order="BEFORE" keyProperty="id">
+			SELECT REPLACE(UUID(), '-', '')
+		</selectKey>
+		INSERT INTO <include refid="t_identityCard" /> (ID,
+		<trim suffixOverrides=",">
+			<if test="idcard != null">
+				idcard,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="birthday != null">
+				birthday,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="province != null">
+				province,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="county != null">
+				county,
+			</if>
+			<if test="isTrue != null">
+				isTrue,
+			</if>
+			<if test="sortNo != null">
+				sortNo,
+			</if>
+			<include refid="com.tjcloud.data.mapper.inscolumn"/>
+		</trim>
+		) VALUES (#{id},
+		<trim suffixOverrides=",">
+			<if test="idcard != null">
+				#{idcard},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="sex != null">
+				#{sex},
+			</if>
+			<if test="birthday != null">
+				#{birthday},
+			</if>
+			<if test="address != null">
+				#{address},
+			</if>
+			<if test="province != null">
+				#{province},
+			</if>
+			<if test="city != null">
+				#{city},
+			</if>
+			<if test="county != null">
+				#{county},
+			</if>
+			<if test="isTrue != null">
+				#{isTrue},
+			</if>
+			<if test="sortNo != null">
+				#{sortNo},
+			</if>
+			<include refid="com.tjcloud.data.mapper.insparam"/>
+		</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="identityCard">
+		UPDATE <include refid="t_identityCard" />
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="idcard != null">
+				idcard = #{idcard},
+			</if>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="sex != null">
+				sex = #{sex},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="province != null">
+				province = #{province},
+			</if>
+			<if test="city != null">
+				city = #{city},
+			</if>
+			<if test="county != null">
+				county = #{county},
+			</if>
+			<if test="isTrue != null">
+				isTrue = #{isTrue},
+			</if>
+			<if test="sortNo != null">
+				sortNo = #{sortNo},
+			</if>
+			<include refid="com.tjcloud.data.mapper.update"/>
+		</trim>
+		 WHERE id = #{id}
+	</update>
+
+	<update id="lock" parameterType="string">
+		UPDATE <include refid="t_identityCard" />
+		   SET LOCKED = 1
+		 WHERE LOCKED = 0
+		   AND id = #{id}
+	</update>
+
+	<update id="unlock" parameterType="string">
+		UPDATE <include refid="t_identityCard" />
+		   SET LOCKED = 0
+		 WHERE LOCKED = 1
+		   AND id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM <include refid="t_identityCard" />
+		 WHERE id = #{id}
+	</delete>
+
+	<select id="getById" parameterType="string" resultType="identityCard">
+		SELECT * FROM <include refid="t_identityCard" />
+		 WHERE id = #{id}
+	</select>
+
+	<select id="listBy" parameterType="map" resultType="identityCard">
+		<include refid="listSQL" />
+	</select>
+
+	<select id="listPage" parameterType="map" resultType="identityCard">
+		<include refid="listSQL" />
+		<if test="pageFirst != null">
+			LIMIT #{pageFirst}, #{pageSize}
+		</if>
+	</select>
+
+	<select id="listPageCount" parameterType="map" resultType="long">
+		SELECT COUNT(1) FROM <include refid="t_identityCard" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+	</select>
+
+	<sql id="listSQL">
+		SELECT * FROM <include refid="t_identityCard" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		ORDER BY id DESC
+	</sql>
+   
+	<sql id="condition_sql">
+		<trim prefixOverrides="AND | OR">
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="idcard != null">
+				AND idcard = #{idcard}
+			</if>
+			<if test="name != null">
+				AND name = #{name}
+			</if>
+			<if test="sex != null">
+				AND sex = #{sex}
+			</if>
+			<if test="birthday != null">
+				AND birthday = #{birthday}
+			</if>
+			<if test="address != null">
+				AND address = #{address}
+			</if>
+			<if test="province != null">
+				AND province = #{province}
+			</if>
+			<if test="city != null">
+				AND city = #{city}
+			</if>
+			<if test="county != null">
+				AND county = #{county}
+			</if>
+			<if test="isTrue != null">
+				AND isTrue = #{isTrue}
+			</if>
+			<if test="sortNo != null">
+				AND sortNo = #{sortNo}
+			</if>
+			<include refid="com.tjcloud.data.mapper.condition"/>
+		</trim>
+	</sql>
+</mapper>

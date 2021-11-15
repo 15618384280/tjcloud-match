@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjcloud.match.base.dao.impl.MatchInfoDaoImpl">
+	<sql id="t_matchInfo">match_info</sql>
+
+	<insert id="insert" parameterType="matchInfo">
+		<selectKey resultType="string" order="BEFORE" keyProperty="id">
+			SELECT REPLACE(UUID(), '-', '')
+		</selectKey>
+		INSERT INTO <include refid="t_matchInfo" /> (ID,
+		<trim suffixOverrides=",">
+			<if test="tenantId != null">
+				tenantId,
+			</if>
+			<if test="matchName != null">
+				matchName,
+			</if>
+			<if test="maxNum != null">
+				maxNum,
+			</if>
+			<if test="signCount != null">
+				signCount,
+			</if>
+			<if test="shamCount != null">
+				shamCount,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="shortName != null">
+				shortName,
+			</if>
+			<if test="startTime != null">
+				startTime,
+			</if>
+			<if test="endTime != null">
+				endTime,
+			</if>
+			<if test="upStartTime != null">
+				upStartTime,
+			</if>
+			<if test="upEndTime != null">
+				upEndTime,
+			</if>
+			<if test="matchCity != null">
+				matchCity,
+			</if>
+			<if test="province != null">
+				province,
+			</if>
+			<if test="city != null">
+				city,
+			</if>
+			<if test="area != null">
+				area,
+			</if>
+			<if test="address != null">
+				address,
+			</if>
+			<if test="backgroundHref != null">
+				backgroundHref,
+			</if>
+			<if test="logoHref != null">
+				logoHref,
+			</if>
+			<if test="gradeUrl != null">
+				gradeUrl,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="sortNo != null">
+				sortNo,
+			</if>
+			<if test="sportTypeCode != null">
+				sportTypeCode,
+			</if>
+			<if test="sportTypeName != null">
+				sportTypeName,
+			</if>
+			<if test="payMode != null">
+				payMode,
+			</if>
+			<if test="openState != null">
+				openState,
+			</if>
+			<if test="gradeType != null">
+				gradeType,
+			</if>
+			<if test="achievementHref != null">
+				achievementHref,
+			</if>
+			<if test="stylePv != null">
+				stylePv,
+			</if>
+			<if test="limitReg != null">
+				limitReg,
+			</if>
+			<if test="matchStyleUrl != null">
+				matchStyleUrl,
+			</if>
+			<if test="isComac != null">
+				isComac,
+			</if>
+			<if test="showHandbook != null">
+				showHandbook,
+			</if>
+			<include refid="com.tjcloud.data.mapper.inscolumn"/>
+		</trim>
+		) VALUES (#{id},
+		<trim suffixOverrides=",">
+			<if test="tenantId != null">
+				#{tenantId},
+			</if>
+			<if test="matchName != null">
+				#{matchName},
+			</if>
+			<if test="maxNum != null">
+				#{maxNum},
+			</if>
+			<if test="signCount != null">
+				#{signCount},
+			</if>
+			<if test="shamCount != null">
+				#{shamCount},
+			</if>
+			<if test="type != null">
+				#{type},
+			</if>
+			<if test="shortName != null">
+				#{shortName},
+			</if>
+			<if test="startTime != null">
+				#{startTime},
+			</if>
+			<if test="endTime != null">
+				#{endTime},
+			</if>
+			<if test="upStartTime != null">
+				#{upStartTime},
+			</if>
+			<if test="upEndTime != null">
+				#{upEndTime},
+			</if>
+			<if test="matchCity != null">
+				#{matchCity},
+			</if>
+			<if test="province != null">
+				#{province},
+			</if>
+			<if test="city != null">
+				#{city},
+			</if>
+			<if test="area != null">
+				#{area},
+			</if>
+			<if test="address != null">
+				#{address},
+			</if>
+			<if test="backgroundHref != null">
+				#{backgroundHref},
+			</if>
+			<if test="logoHref != null">
+				#{logoHref},
+			</if>
+			<if test="gradeUrl != null">
+				#{gradeUrl},
+			</if>
+			<if test="state != null">
+				#{state},
+			</if>
+			<if test="sortNo != null">
+				#{sortNo},
+			</if>
+			<if test="sportTypeCode != null">
+				#{sportTypeCode},
+			</if>
+			<if test="sportTypeName != null">
+				#{sportTypeName},
+			</if>
+			<if test="payMode != null">
+				#{payMode},
+			</if>
+			<if test="openState != null">
+				#{openState},
+			</if>
+			<if test="gradeType != null">
+				#{gradeType},
+			</if>
+			<if test="achievementHref != null">
+				#{achievementHref},
+			</if>
+			<if test="stylePv != null">
+				#{stylePv},
+			</if>
+			<if test="limitReg != null">
+				#{limitReg},
+			</if>
+			<if test="matchStyleUrl != null">
+				#{matchStyleUrl},
+			</if>
+			<if test="isComac != null">
+				#{isComac},
+			</if>
+			<if test="showHandbook != null">
+				#{showHandbook},
+			</if>
+			<include refid="com.tjcloud.data.mapper.insparam"/>
+		</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="matchInfo">
+		UPDATE <include refid="t_matchInfo" />
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="tenantId != null">
+				tenantId = #{tenantId},
+			</if>
+			<if test="matchName != null">
+				matchName = #{matchName},
+			</if>
+			<if test="maxNum != null">
+				maxNum = #{maxNum},
+			</if>
+			<if test="signCount != null">
+				signCount = #{signCount},
+			</if>
+			<if test="shamCount != null">
+				shamCount = #{shamCount},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="shortName != null">
+				shortName = #{shortName},
+			</if>
+			<if test="startTime != null">
+				startTime = #{startTime},
+			</if>
+			<if test="endTime != null">
+				endTime = #{endTime},
+			</if>
+			<if test="upStartTime != null">
+				upStartTime = #{upStartTime},
+			</if>
+			<if test="upEndTime != null">
+				upEndTime = #{upEndTime},
+			</if>
+			<if test="matchCity != null">
+				matchCity = #{matchCity},
+			</if>
+			<if test="province != null">
+				province = #{province},
+			</if>
+			<if test="city != null">
+				city = #{city},
+			</if>
+			<if test="area != null">
+				area = #{area},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			<if test="backgroundHref != null">
+				backgroundHref = #{backgroundHref},
+			</if>
+			<if test="logoHref != null">
+				logoHref = #{logoHref},
+			</if>
+			<if test="gradeUrl != null">
+				gradeUrl = #{gradeUrl},
+			</if>
+			<if test="state != null">
+				state = #{state},
+			</if>
+			<if test="sortNo != null">
+				sortNo = #{sortNo},
+			</if>
+			<if test="sportTypeCode != null">
+				sportTypeCode = #{sportTypeCode},
+			</if>
+			<if test="sportTypeName != null">
+				sportTypeName = #{sportTypeName},
+			</if>
+			<if test="payMode != null">
+				payMode = #{payMode},
+			</if>
+			<if test="openState != null">
+				openState = #{openState},
+			</if>
+			<if test="gradeType != null">
+				gradeType = #{gradeType},
+			</if>
+			<if test="achievementHref != null">
+				achievementHref = #{achievementHref},
+			</if>
+			<if test="stylePv != null">
+				stylePv = #{stylePv},
+			</if>
+			<if test="limitReg != null">
+				limitReg = #{limitReg},
+			</if>
+			<if test="matchStyleUrl != null">
+				matchStyleUrl = #{matchStyleUrl},
+			</if>
+			<if test="isComac != null">
+				isComac = #{isComac},
+			</if>
+			<if test="showHandbook != null">
+				showHandbook = #{showHandbook},
+			</if>
+			<include refid="com.tjcloud.data.mapper.update"/>
+		</trim>
+		 WHERE id = #{id}
+	</update>
+
+	<update id="lock" parameterType="string">
+		UPDATE <include refid="t_matchInfo" />
+		   SET LOCKED = 1
+		 WHERE LOCKED = 0
+		   AND id = #{id}
+	</update>
+
+	<update id="unlock" parameterType="string">
+		UPDATE <include refid="t_matchInfo" />
+		   SET LOCKED = 0
+		 WHERE LOCKED = 1
+		   AND id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM <include refid="t_matchInfo" />
+		 WHERE id = #{id}
+	</delete>
+
+	<select id="getById" parameterType="string" resultType="matchInfo">
+		SELECT * FROM <include refid="t_matchInfo" />
+		 WHERE id = #{id}
+	</select>
+
+	<select id="findMatchCities" resultType="string">
+		SELECT city FROM <include refid="t_matchInfo" /> WHERE city != '' GROUP BY city
+	</select>
+	<select id="listBy" parameterType="map" resultType="matchInfo">
+		<include refid="listSQL" />
+	</select>
+
+	<select id="listPage" parameterType="map" resultType="matchInfo">
+		<include refid="com.tjcloud.data.mapper.page#begin"/>
+		<include refid="listSQL" />
+		<include refid="com.tjcloud.data.mapper.page#end"/>
+	</select>
+
+	<select id="listPageCount" parameterType="map" resultType="long">
+		SELECT COUNT(1) FROM <include refid="t_matchInfo" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+	</select>
+
+	<select id="findCountAllMatch" parameterType="map" resultType="int">
+		SELECT count(DISTINCT matchName) as countAllMatch
+		FROM match_info
+		WHERE
+			 startTime &gt; #{thisYear}
+			<if test="areaRegion != null">
+				and area = #{areaRegion}
+			</if>
+			and endTime &lt; #{nowTime}
+	</select>
+
+	<select id="findSigninCount" parameterType="map" resultType="map">
+		SELECT count(b.matchId) as count,a.matchName as name
+		FROM match_info a,sign_record b
+		WHERE
+		 	b.matchId = a.id
+			and b.payment IN (1, 5, 6)
+		 	<if test="areaRegion != null">
+				and a.area = #{areaRegion}
+			</if>
+			and a.startTime &gt; #{thisYear}
+			and a.endTime &lt; #{nowTime}
+		GROUP BY b.matchId ORDER BY count desc
+	</select>
+
+	<sql id="listSQL">
+		SELECT * FROM <include refid="t_matchInfo" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		ORDER BY sortNo ASC, upStartTime DESC
+	</sql>
+   
+	<sql id="condition_sql">
+		<trim prefixOverrides="AND | OR">
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="tenantId != null">
+				AND tenantId = #{tenantId}
+			</if>
+			<if test="matchName != null">
+				AND matchName = #{matchName}
+			</if>
+			<if test="matchNameLike != null">
+				AND CONCAT(matchName, matchCity, province, city, area, shortName) like CONCAT('%',#{matchNameLike},'%')
+			</if>
+			<if test="maxNum != null">
+				AND maxNum = #{maxNum}
+			</if>
+			<if test="signCount != null">
+				AND signCount = #{signCount}
+			</if>
+			<if test="shamCount != null">
+				AND shamCount = #{shamCount}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="shortName != null">
+				AND shortName = #{shortName}
+			</if>
+			<if test="startTime != null">
+				AND startTime <![CDATA[ >= ]]> #{startTime}
+			</if>
+			<if test="endTime != null">
+				AND endTime <![CDATA[ <= ]]> #{endTime}
+			</if>
+			<if test="upStartTime != null">
+				AND upStartTime <![CDATA[ >= ]]> #{upStartTime}
+			</if>
+			<if test="upEndTime != null">
+				AND upEndTime <![CDATA[ <= ]]> #{upEndTime}
+			</if>
+			<if test="matchCity != null">
+				AND matchCity = #{matchCity}
+			</if>
+			<if test="province != null">
+				AND province = #{province}
+			</if>
+			<if test="city != null">
+				AND city = #{city}
+			</if>
+			<if test="area != null">
+				AND area = #{area}
+			</if>
+			<if test="address != null">
+				AND address = #{address}
+			</if>
+			<if test="backgroundHref != null">
+				AND backgroundHref = #{backgroundHref}
+			</if>
+			<if test="logoHref != null">
+				AND logoHref = #{logoHref}
+			</if>
+			<if test="gradeUrl != null">
+				AND gradeUrl = #{gradeUrl}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="state == null">
+				AND state not in (5)
+			</if>
+			<if test="stateList != null">
+				AND state IN
+				<foreach item="text" index="index" collection="stateList" open="(" separator="," close=")">
+					#{text}
+				</foreach>
+			</if>
+			<if test="sortNo != null">
+				AND sortNo = #{sortNo}
+			</if>
+			<if test="sportTypeCode != null">
+				AND sportTypeCode = #{sportTypeCode}
+			</if>
+			<if test="sortNo != null">
+				AND sportTypeName = #{sportTypeName}
+			</if>
+			<if test="payMode != null">
+				AND payMode = #{payMode}
+			</if>
+			<if test="openState != null">
+				AND openState = #{openState}
+			</if>
+			<if test="gradeType != null">
+				AND gradeType = #{gradeType}
+			</if>
+			<if test="achievementHref != null">
+				AND achievementHref = #{achievementHref}
+			</if>
+			<if test="stylePv != null">
+				AND stylePv = #{stylePv}
+			</if>
+			<if test="limitReg != null">
+				AND limitReg = #{limitReg}
+			</if>
+			<if test="matchStyleUrl != null">
+				AND matchStyleUrl = #{matchStyleUrl}
+			</if>
+			<if test="isComac == null">
+				AND isComac = 0
+			</if>
+			<if test="isComac != null">
+				AND isComac = #{isComac}
+			</if>
+			<if test="showHandbook != null">
+				AND showHandbook = #{showHandbook}
+			</if>
+			<include refid="com.tjcloud.data.mapper.condition"/>
+		</trim>
+	</sql>
+</mapper>

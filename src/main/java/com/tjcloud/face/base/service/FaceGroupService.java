@@ -15,12 +15,27 @@ public interface FaceGroupService extends AbstractService<FaceGroup, String> {
 	 * @return
 	 */
 	FaceGroup createFaceGroup(FaceGroup faceGroup);
-
+	
+	/**
+	 * 根据名称获取分组
+	 * @param poolId
+	 * @param groupName
+	 * @return
+	 */
+	FaceGroup getFaceGroupByName(String poolId, String groupName);
+	
 	/**
 	 * 根据baiduGroupId获取分组
 	 * @param baiduGroupId
 	 * @return
 	 */
 	FaceGroup getFaceGroupByBaiduGroupId(String baiduGroupId);
-
+	
+	/**
+	 * 删除人脸库用户组
+	 * @param faceGroupId
+	 * @return
+	 */
+	FaceGroup deleteFaceGroup(String baiduGroupId);
+	
 }

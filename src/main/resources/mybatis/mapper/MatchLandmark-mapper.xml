@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjcloud.match.base.dao.impl.MatchLandmarkDaoImpl">
+    <sql id="t_matchLandmark">match_landmark</sql>
+
+    <insert id="insert" parameterType="matchLandmark">
+        <selectKey resultType="string" order="BEFORE" keyProperty="id">
+            SELECT REPLACE(UUID(), '-', '')
+        </selectKey>
+        INSERT INTO
+        <include refid="t_matchLandmark"/>
+        (ID,
+        <trim suffixOverrides=",">
+            <if test="tenantId != null and tenantId != ''">
+                tenantId,
+            </if>
+            <if test="matchId != null and matchId != ''">
+                matchId,
+            </if>
+            <if test="markName != null and markName != ''">
+                markName,
+            </if>
+            <if test="shortName != null and shortName != ''">
+                shortName,
+            </if>
+            <if test="introduce != null and introduce != ''">
+                introduce,
+            </if>
+            <if test="mapCoord != null">
+                mapCoord,
+            </if>
+            <if test="backgroundHref != null and backgroundHref != ''">
+                backgroundHref,
+            </if>
+            <if test="logoHref != null and logoHref != ''">
+                logoHref,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="sortNo != null">
+                sortNo,
+            </if>
+            <include refid="com.tjcloud.data.mapper.inscolumn"/>
+        </trim>
+        ) VALUES (#{id},
+        <trim suffixOverrides=",">
+            <if test="tenantId != null and tenantId != ''">
+                #{tenantId},
+            </if>
+            <if test="matchId != null and matchId != ''">
+                #{matchId},
+            </if>
+            <if test="markName != null and markName != ''">
+                #{markName},
+            </if>
+            <if test="shortName != null and shortName != ''">
+                #{shortName},
+            </if>
+            <if test="introduce != null and introduce != ''">
+                #{introduce},
+            </if>
+            <if test="mapCoord != null">
+                #{mapCoord},
+            </if>
+            <if test="backgroundHref != null and backgroundHref != ''">
+                #{backgroundHref},
+            </if>
+            <if test="logoHref != null and logoHref != ''">
+                #{logoHref},
+            </if>
+            <if test="state != null">
+                #{state},
+            </if>
+            <if test="sortNo != null">
+                #{sortNo},
+            </if>
+            <include refid="com.tjcloud.data.mapper.insparam"/>
+        </trim>
+        )
+    </insert>
+    <update id="update" parameterType="matchLandmark">
+        UPDATE
+        <include refid="t_matchLandmark"/>
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tenantId != null and tenantId != ''">
+                tenantId = #{tenantId},
+            </if>
+            <if test="matchId != null and matchId != ''">
+                matchId = #{matchId},
+            </if>
+            <if test="markName != null and markName != ''">
+                markName = #{markName},
+            </if>
+            <if test="shortName != null and shortName != ''">
+                shortName = #{shortName},
+            </if>
+            <if test="introduce != null and introduce != ''">
+                introduce = #{introduce},
+            </if>
+            <if test="mapCoord != null">
+                mapCoord = #{mapCoord},
+            </if>
+            <if test="backgroundHref != null and backgroundHref != ''">
+                backgroundHref = #{backgroundHref},
+            </if>
+            <if test="logoHref != null and logoHref != ''">
+                logoHref = #{logoHref},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="sortNo != null">
+                sortNo = #{sortNo},
+            </if>
+
+            <include refid="com.tjcloud.data.mapper.update"/>
+        </trim>
+        WHERE id = #{id}
+    </update>
+
+    <update id="lock" parameterType="string">
+        UPDATE
+        <include refid="t_matchLandmark"/>
+        SET LOCKED = 1
+        WHERE LOCKED = 0
+        AND id = #{id}
+    </update>
+
+    <update id="unlock" parameterType="string">
+        UPDATE
+        <include refid="t_matchLandmark"/>
+        SET LOCKED = 0
+        WHERE LOCKED = 1
+        AND id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="string">
+        DELETE FROM
+        <include refid="t_matchLandmark"/>
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getById" parameterType="string" resultType="matchLandmark">
+        SELECT * FROM
+        <include refid="t_matchLandmark"/>
+        WHERE id = #{id}
+    </select>
+
+    <select id="listBy" parameterType="map" resultType="matchLandmark">
+        <include refid="listSQL"/>
+    </select>
+
+    <select id="listPage" parameterType="map" resultType="matchLandmark">
+        <include refid="listSQL"/>
+        <if test="pageFirst != null">
+            LIMIT #{pageFirst}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="listPageCount" parameterType="map" resultType="long">
+        SELECT COUNT(1) FROM
+        <include refid="t_matchLandmark"/>
+        <where>
+            <include refid="condition_sql"/>
+        </where>
+    </select>
+
+    <sql id="listSQL">
+        SELECT * FROM
+        <include refid="t_matchLandmark"/>
+        <where>
+            <include refid="condition_sql"/>
+        </where>
+        ORDER BY sortNo
+    </sql>
+
+    <sql id="condition_sql">
+        <trim prefixOverrides="AND | OR">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="tenantId != null and tenantId != ''">
+                and tenantId = #{tenantId}
+            </if>
+            <if test="matchId != null and matchId != ''">
+                and matchId = #{matchId}
+            </if>
+            <if test="markName != null and markName != ''">
+                and markName = #{markName}
+            </if>
+            <if test="shortName != null and shortName != ''">
+                and shortName = #{shortName}
+            </if>
+            <if test="introduce != null and introduce != ''">
+                and introduce = #{introduce}
+            </if>
+            <if test="mapCoord != null">
+                and mapCoord = #{mapCoord}
+            </if>
+            <if test="backgroundHref != null and backgroundHref != ''">
+                and backgroundHref = #{backgroundHref}
+            </if>
+            <if test="logoHref != null and logoHref != ''">
+                and logoHref = #{logoHref}
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            <if test="sortNo != null">
+                and sortNo = #{sortNo}
+            </if>
+            <if test="disabled == null">
+                AND disabled = 0
+            </if>
+            <include refid="com.tjcloud.data.mapper.condition"/>
+        </trim>
+    </sql>
+</mapper>

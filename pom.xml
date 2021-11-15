@@ -17,14 +17,21 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
+        <!-- Spring -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- tjcloud -->
         <dependency>
             <groupId>com.tjcloud</groupId>
             <artifactId>tjcloud-core</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.tjcloud</groupId>
+            <artifactId>tjcloud-web-core</artifactId>
             <version>3.0</version>
         </dependency>
         <dependency>
@@ -34,10 +41,14 @@
         </dependency>
         <dependency>
             <groupId>com.tjcloud</groupId>
-            <artifactId>tjcloud-data-mybatis-api</artifactId>
-            <version>3.0</version>
+            <artifactId>tjcloud-mybatis-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.tjcloud</groupId>
+            <artifactId>tjcloud-redis-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.tjcloud</groupId>
             <artifactId>tjcloud-pay-core</artifactId>
@@ -45,34 +56,95 @@
         </dependency>
         <dependency>
             <groupId>com.tjcloud</groupId>
-            <artifactId>tjcloud-tenant-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tjcloud</groupId>
-            <artifactId>tjcloud-order-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tjcloud</groupId>
-            <artifactId>tjcloud-dd-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tjcloud</groupId>
-            <artifactId>tjcloud-face-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tjcloud</groupId>
-            <artifactId>tjcloud-match-core</artifactId>
+            <artifactId>tjcloud-auth-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- 3rd party -->
         <dependency>
             <groupId>com.alipay</groupId>
             <artifactId>alipay-sdk</artifactId>
             <version>20171201</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.14</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baidu.aip</groupId>
+            <artifactId>java-sdk</artifactId>
+            <version>4.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.coolpen</groupId>
+            <artifactId>coolpen-rest-java</artifactId>
+            <version>2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.28</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jpush-client</artifactId>
+            <version>3.3.5</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jiguang-common</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.16</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.taobao</groupId>
+            <artifactId>taobao-sdk</artifactId>
+            <version>20160607</version>
+        </dependency>
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjcloud.match.base.dao.impl.MatchSubjectDaoImpl">
+	<sql id="t_matchSubject">match_subject</sql>
+
+	<insert id="insert" parameterType="matchSubject">
+		<selectKey resultType="string" order="BEFORE" keyProperty="id">
+			SELECT REPLACE(UUID(), '-', '')
+		</selectKey>
+		INSERT INTO <include refid="t_matchSubject" /> (ID,
+		<trim suffixOverrides=",">
+			<if test="matchId != null">
+				matchId,
+			</if>
+			<if test="matchName != null">
+				matchName,
+			</if>
+			<if test="subject != null">
+				subject,
+			</if>
+			<if test="maxNum != null">
+				maxNum,
+			</if>
+			<if test="signCount != null">
+				signCount,
+			</if>
+			<if test="shamCount != null">
+				shamCount,
+			</if>
+			<if test="expenses != null">
+				expenses,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="teamNumMin != null">
+				teamNumMin,
+			</if>
+			<if test="teamNum != null">
+				teamNum,
+			</if>
+			<if test="gameTime != null">
+				gameTime,
+			</if>
+			<if test="gameEndTime != null">
+				gameEndTime,
+			</if>
+			<if test="upStartTime != null">
+				upStartTime,
+			</if>
+			<if test="upEndTime != null">
+				upEndTime,
+			</if>
+			<if test="openState != null">
+				openState,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="transfer != null">
+				transfer,
+			</if>
+			<if test="auditing != null">
+				auditing,
+			</if>
+			<if test="mailNotice != null">
+				mailNotice,
+			</if>
+			<if test="smsNotice != null">
+				smsNotice,
+			</if>
+			<if test="cancelSingup != null">
+				cancelSingup,
+			</if>
+			<if test="checkCardId != null">
+				checkCardId,
+			</if>
+			<if test="promptMessage != null">
+				promptMessage,
+			</if>
+			<if test="payMode != null">
+				payMode,
+			</if>
+			<if test="tenantId != null">
+				tenantId,
+			</if>
+			<if test="systemMatchNo != null">
+				systemMatchNo,
+			</if>
+			<if test="manMatchNoHead != null">
+				manMatchNoHead,
+			</if>
+			<if test="manMatchNoLength != null">
+				manMatchNoLength,
+			</if>
+			<if test="manMatchNoNumber != null">
+				manMatchNoNumber,
+			</if>
+			<if test="womanMatchNoHead != null">
+				womanMatchNoHead,
+			</if>
+			<if test="womanMatchNoLength != null">
+				womanMatchNoLength,
+			</if>
+			<if test="womanMatchNoNumber != null">
+				womanMatchNoNumber,
+			</if>
+			<include refid="com.tjcloud.data.mapper.inscolumn"/>
+		</trim>
+		) VALUES (#{id},
+		<trim suffixOverrides=",">
+			<if test="matchId != null">
+				#{matchId},
+			</if>
+			<if test="matchName != null">
+				#{matchName},
+			</if>
+			<if test="subject != null">
+				#{subject},
+			</if>
+			<if test="maxNum != null">
+				#{maxNum},
+			</if>
+			<if test="signCount != null">
+				#{signCount},
+			</if>
+			<if test="shamCount != null">
+				#{shamCount},
+			</if>
+			<if test="expenses != null">
+				#{expenses},
+			</if>
+			<if test="type != null">
+				#{type},
+			</if>
+			<if test="teamNumMin != null">
+				#{teamNumMin},
+			</if>
+			<if test="teamNum != null">
+				#{teamNum},
+			</if>
+			<if test="gameTime != null">
+				#{gameTime},
+			</if>
+			<if test="gameEndTime != null">
+				#{gameEndTime},
+			</if>
+			<if test="upStartTime != null">
+				#{upStartTime},
+			</if>
+			<if test="upEndTime != null">
+				#{upEndTime},
+			</if>
+			<if test="openState != null">
+				#{openState},
+			</if>
+			<if test="state != null">
+				#{state},
+			</if>
+			<if test="transfer != null">
+				#{transfer},
+			</if>
+			<if test="auditing != null">
+				#{auditing},
+			</if>
+			<if test="mailNotice != null">
+				#{mailNotice},
+			</if>
+			<if test="smsNotice != null">
+				#{smsNotice},
+			</if>
+			<if test="cancelSingup != null">
+				#{cancelSingup},
+			</if>
+			<if test="checkCardId != null">
+				#{checkCardId},
+			</if>
+			<if test="promptMessage != null">
+				#{promptMessage},
+			</if>
+			<if test="payMode != null">
+				#{payMode},
+			</if>
+			<if test="tenantId != null">
+				#{tenantId},
+			</if>
+			<if test="systemMatchNo != null">
+				#{systemMatchNo},
+			</if>
+			<if test="manMatchNoHead != null">
+				#{manMatchNoHead},
+			</if>
+			<if test="manMatchNoLength != null">
+				#{manMatchNoLength},
+			</if>
+			<if test="manMatchNoNumber != null">
+				#{manMatchNoNumber},
+			</if>
+			<if test="womanMatchNoHead != null">
+				#{womanMatchNoHead},
+			</if>
+			<if test="womanMatchNoLength != null">
+				#{womanMatchNoLength},
+			</if>
+			<if test="womanMatchNoNumber != null">
+				#{womanMatchNoNumber},
+			</if>
+			<include refid="com.tjcloud.data.mapper.insparam"/>
+		</trim>
+		)
+	</insert>
+
+	<update id="update" parameterType="matchSubject">
+		UPDATE <include refid="t_matchSubject" />
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="matchId != null">
+				matchId = #{matchId},
+			</if>
+			<if test="matchName != null">
+				matchName = #{matchName},
+			</if>
+			<if test="subject != null">
+				subject = #{subject},
+			</if>
+			<if test="maxNum != null">
+				maxNum = #{maxNum},
+			</if>
+			<if test="signCount != null">
+				signCount = #{signCount},
+			</if>
+			<if test="shamCount != null">
+				shamCount = #{shamCount},
+			</if>
+			<if test="expenses != null">
+				expenses = #{expenses},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+			<if test="teamNumMin != null">
+				teamNumMin = #{teamNumMin},
+			</if>
+			<if test="teamNum != null">
+				teamNum = #{teamNum},
+			</if>
+			<if test="gameTime != null">
+				gameTime = #{gameTime},
+			</if>
+			<if test="gameEndTime != null">
+				gameEndTime = #{gameEndTime},
+			</if>
+			<if test="upStartTime != null">
+				upStartTime = #{upStartTime},
+			</if>
+			<if test="upEndTime != null">
+				upEndTime = #{upEndTime},
+			</if>
+			<if test="openState != null">
+				openState = #{openState},
+			</if>
+			<if test="state != null">
+				state = #{state},
+			</if>
+			<if test="transfer != null">
+				transfer = #{transfer},
+			</if>
+			<if test="auditing != null">
+				auditing = #{auditing},
+			</if>
+			<if test="mailNotice != null">
+				mailNotice = #{mailNotice},
+			</if>
+			<if test="smsNotice != null">
+				smsNotice = #{smsNotice},
+			</if>
+			<if test="cancelSingup != null">
+				cancelSingup = #{cancelSingup},
+			</if>
+			<if test="checkCardId != null">
+				checkCardId = #{checkCardId},
+			</if>
+			<if test="promptMessage != null">
+				promptMessage = #{promptMessage},
+			</if>
+			<if test="payMode != null">
+				payMode = #{payMode},
+			</if>
+			<if test="tenantId != null">
+				tenantId = #{tenantId},
+			</if>
+			<if test="systemMatchNo != null">
+				systemMatchNo = #{systemMatchNo},
+			</if>
+			<if test="manMatchNoHead != null">
+				manMatchNoHead = #{manMatchNoHead},
+			</if>
+			<if test="manMatchNoLength != null">
+				manMatchNoLength = #{manMatchNoLength},
+			</if>
+			<if test="manMatchNoNumber != null">
+				manMatchNoNumber = #{manMatchNoNumber},
+			</if>
+			<if test="womanMatchNoHead != null">
+				womanMatchNoHead = #{womanMatchNoHead},
+			</if>
+			<if test="womanMatchNoLength != null">
+				womanMatchNoLength = #{womanMatchNoLength},
+			</if>
+			<if test="womanMatchNoNumber != null">
+				womanMatchNoNumber = #{womanMatchNoNumber},
+			</if>
+			<include refid="com.tjcloud.data.mapper.update"/>
+		</trim>
+		 WHERE id = #{id}
+	</update>
+
+	<update id="lock" parameterType="string">
+		UPDATE <include refid="t_matchSubject" />
+		   SET LOCKED = 1
+		 WHERE LOCKED = 0
+		   AND id = #{id}
+	</update>
+
+	<update id="unlock" parameterType="string">
+		UPDATE <include refid="t_matchSubject" />
+		   SET LOCKED = 0
+		 WHERE LOCKED = 1
+		   AND id = #{id}
+	</update>
+	
+	<!-- 统计赛事科目的最大报名人数、报名人数 -->
+	<resultMap type="java.util.Map" id="sumMatchSubjectSignCountMap">  
+	    <result property="maxNum" column="maxNum" />  
+	    <result property="signCount" column="signCount" />  
+	    <result property="shamCount" column="shamCount" />  
+	</resultMap>  
+
+    <select id="sumMatchSubjectSignCount" parameterType="map" resultMap="sumMatchSubjectSignCountMap">
+    	SELECT SUM(maxNum) maxNum, 
+    		   SUM(signCount) signCount,
+    		   SUM(shamCount) shamCount
+		  FROM <include refid="t_matchSubject" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+	</select>
+	
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM <include refid="t_matchSubject" />
+		 WHERE id = #{id}
+	</delete>
+
+	<select id="getById" parameterType="string" resultType="matchSubject">
+		SELECT * FROM <include refid="t_matchSubject" />
+		 WHERE id = #{id}
+	</select>
+
+	<select id="listBy" parameterType="map" resultType="matchSubject">
+		<include refid="listSQL" />
+	</select>
+
+	<select id="listPage" parameterType="map" resultType="matchSubject">
+		<include refid="com.tjcloud.data.mapper.page#begin"/>
+		<include refid="listSQL" />
+		<include refid="com.tjcloud.data.mapper.page#end"/>
+	</select>
+
+	<select id="listPageCount" parameterType="map" resultType="long">
+		SELECT COUNT(1) FROM <include refid="t_matchSubject" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+	</select>
+
+	<sql id="listSQL">
+		SELECT  *
+        FROM <include refid="t_matchSubject" />
+		<where>
+			<include refid="condition_sql" />
+		</where>
+		ORDER BY createdTime DESC
+	</sql>
+   
+	<sql id="condition_sql">
+		<trim prefixOverrides="AND | OR">
+			<if test="id != null">
+				AND id = #{id}
+			</if>
+			<if test="matchId != null">
+				AND matchId = #{matchId}
+			</if>
+			<if test="matchName != null">
+				AND matchName = #{matchName}
+			</if>
+			<if test="subject != null">
+				AND subject = #{subject}
+			</if>
+			<if test="subjectLike != null">
+				AND subject like CONCAT('%',#{subjectLike},'%')
+			</if>
+			<if test="maxNum != null">
+				AND maxNum = #{maxNum}
+			</if>
+			<if test="signCount != null">
+				AND signCount = #{signCount}
+			</if>
+			<if test="shamCount != null">
+				AND shamCount = #{shamCount}
+			</if>
+			<if test="expenses != null">
+				AND expenses = #{expenses}
+			</if>
+			<if test="type != null">
+				AND type = #{type}
+			</if>
+			<if test="teamNumMin != null">
+				AND teamNumMin = #{teamNumMin}
+			</if>
+			<if test="teamNum != null">
+				AND teamNum = #{teamNum}
+			</if>
+			<if test="gameTime != null">
+				AND gameTime = #{gameTime}
+			</if>
+			<if test="gameEndTime != null">
+				AND gameEndTime = #{gameEndTime}
+			</if>
+			<if test="upStartTime != null">
+				AND upStartTime = #{upStartTime}
+			</if>
+			<if test="upEndTime != null">
+				AND upEndTime = #{upEndTime}
+			</if>
+			<if test="openState != null">
+				AND openState = #{openState}
+			</if>
+			<if test="state != null">
+				AND state = #{state}
+			</if>
+			<if test="state == null">
+				AND state not in (5)
+			</if>
+			<if test="stateList != null">
+				AND state IN
+				<foreach item="state" index="index" collection="stateList" open="(" separator="," close=")">
+					#{state}
+				</foreach>
+			</if>
+			<if test="transfer != null">
+				AND transfer = #{transfer}
+			</if>
+			<if test="auditing != null">
+				AND auditing = #{auditing}
+			</if>
+			<if test="mailNotice != null">
+				AND mailNotice = #{mailNotice}
+			</if>
+			<if test="smsNotice != null">
+				AND smsNotice = #{smsNotice}
+			</if>
+			<if test="cancelSingup != null">
+				AND cancelSingup = #{cancelSingup}
+			</if>
+			<if test="checkCardId != null">
+				AND checkCardId = #{checkCardId}
+			</if>
+			<if test="promptMessage != null">
+				AND promptMessage = #{promptMessage}
+			</if>
+			<if test="payMode != null">
+				AND payMode = #{payMode}
+			</if>
+			<if test="tenantId != null">
+				AND tenantId = #{tenantId}
+			</if>
+			<if test="systemMatchNo != null">
+				AND systemMatchNo = #{systemMatchNo}
+			</if>
+			<if test="manMatchNoHead != null">
+				AND manMatchNoHead = #{manMatchNoHead}
+			</if>
+			<if test="manMatchNoLength != null">
+				AND manMatchNoLength = #{manMatchNoLength}
+			</if>
+			<if test="manMatchNoNumber != null">
+				AND manMatchNoNumber = #{manMatchNoNumber}
+			</if>
+			<if test="womanMatchNoHead != null">
+				AND womanMatchNoHead = #{womanMatchNoHead}
+			</if>
+			<if test="womanMatchNoLength != null">
+				AND womanMatchNoLength = #{womanMatchNoLength}
+			</if>
+			<if test="womanMatchNoNumber != null">
+				AND womanMatchNoNumber = #{womanMatchNoNumber}
+			</if>
+			<include refid="com.tjcloud.data.mapper.condition"/>
+		</trim>
+	</sql>
+</mapper>
